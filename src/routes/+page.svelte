@@ -1,27 +1,33 @@
 <script>
   import { goto } from '$app/navigation'
   import { base } from '$app/paths'
-  const { data } = $props();
+  const { data } = $props()
 
   const minTopics = 2,
-    maxTopics = 5;
+    maxTopics = 5
 
   /** @type {number[]} */
-  let selectedTopics = $state([]);
-  let generating = $state(false);
+  let selectedTopics = $state([])
+  let generating = $state(false)
+  let timeElapsed = $state(0)
 
   /**
-     * @param {SubmitEvent} event
-     */
+   * @param {SubmitEvent} event
+   */
   async function onGenerate(event) {
+    generating = true
+    const interval = setInterval(() => {
+      timeElapsed++
+    }, 1000)
     try {
-      generating = true;
       event.preventDefault()
       const query = new URLSearchParams()
-      selectedTopics.forEach(topic => query.append('t', String(topic)))
+      selectedTopics.forEach((topic) => query.append('t', String(topic)))
       await goto(`${base}/publication?${query.toString()}`)
     } finally {
-      generating = false;
+      console.log('clearing interval')
+      clearInterval(interval)
+      generating = false
     }
   }
 </script>
@@ -44,5 +50,5 @@
 </form>
 
 {#if generating}
-  <p>generating...</p>
+  <p>generating... (started {timeElapsed}s ago)</p>
 {/if}

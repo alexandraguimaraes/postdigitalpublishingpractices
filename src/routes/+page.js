@@ -1,4 +1,4 @@
-import topics from '$lib/data/topics.json';
+import topics from '$lib/data/topics.json'
 // import docs from '$lib/data/topics.json';
 
 export async function load() {
@@ -9,5 +9,5 @@ export async function load() {
         id: t.Topic,
         terms: t.Representation
       }))
-  };
+  }
 }
