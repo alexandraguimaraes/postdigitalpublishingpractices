@@ -1,5 +1,6 @@
 <script>
-  import { goto } from '$app/navigation';
+  import { goto } from '$app/navigation'
+  import { base } from '$app/paths'
   const { data } = $props();
 
   const minTopics = 2,
@@ -18,7 +19,7 @@
       event.preventDefault()
       const query = new URLSearchParams()
       selectedTopics.forEach(topic => query.append('t', String(topic)))
-      await goto(`/publication?${query.toString()}`)
+      await goto(`${base}/publication?${query.toString()}`)
     } finally {
       generating = false;
     }
