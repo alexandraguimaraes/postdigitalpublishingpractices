@@ -12,7 +12,7 @@ const config = {
       fallback: 'index.html',
     }),
     paths: {
-      base: '/postdigitalpublishingpractices'
+      base: process.env.NODE_ENV === 'production' ? '/postdigitalpublishingpractices' : ''
     }
   }
 };
