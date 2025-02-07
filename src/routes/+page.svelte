@@ -1,5 +1,4 @@
 <script>
-  import { enhance } from '$app/forms';
   import { goto } from '$app/navigation';
   const { data } = $props();
 
@@ -10,20 +9,26 @@
   let selectedTopics = $state([]);
   let generating = $state(false);
 
-  function onGenerate() {
-    generating = true;
-    return async ({ update, action }) => {
+  /**
+     * @param {SubmitEvent} event
+     */
+  async function onGenerate(event) {
+    try {
+      generating = true;
+      event.preventDefault()
+      const query = new URLSearchParams()
+      selectedTopics.forEach(topic => query.append('t', String(topic)))
+      await goto(`/publication?${query.toString()}`)
+    } finally {
       generating = false;
-      await goto(action);
-      await update();
-    };
+    }
   }
 </script>
 
 <h1>Postdigital Publishing Practices: on Hybrid and Processual Print</h1>
 <p>Select {minTopics} to {maxTopics} topics to generate a publication</p>
 
-<form method="POST" action="/publication" use:enhance={onGenerate}>
+<form onsubmit={onGenerate}>
   <div>
     {#each data.topics as topic}
       <label>

@@ -1,13 +1,13 @@
 <script>
   /** @type {import('./$types').PageProps} */
-  let { form } = $props();
+  let { data } = $props();
 </script>
 
-<h1>{form?.title}</h1>
+<h1>{data?.title}</h1>
 <h2>Summary</h2>
-<p>{form?.summary}</p>
-<p>Topics: {form?.topics.join(', ')}</p>
+<p>{data?.summary}</p>
+<p>Topics: {data?.topics.join(', ')}</p>
 <hr>
-{#each form?.docs as doc}
+{#each data?.docs as doc}
 <p>{doc.Document}</p>
 {/each}
