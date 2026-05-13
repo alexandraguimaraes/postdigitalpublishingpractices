@@ -7,6 +7,8 @@ import { pipeline } from '@huggingface/transformers'
 // ])
 // const summarize = await pipeline('summarization', 'Xenova/bart-large-cnn')
 const summarizePromise = pipeline('summarization', 'Xenova/distilbart-cnn-12-6')
+// const summarizePromise = pipeline('summarization', 'Xenova/distilbart-xsum-12-1')
+const generateTitlePromise = pipeline('text2text-generation', 'Xenova/LaMini-Flan-T5-77M')
 
 onmessage = (e) => {
   console.log(e.data)
@@ -20,8 +22,6 @@ const deviationFromAvg = 3
 const approxExcerpts = random(30, 50)
 
 async function generate(topics) {
-  const summarize = await summarizePromise
-
   const topicDocs = docs
     .filter((doc) => topics.includes(doc.Topic))
     .reduce((acc, doc) => {
@@ -52,18 +52,29 @@ async function generate(topics) {
     }
   }
 
-  const text = shuffle([...res])
+  const text = res
+    // const text = shuffle([...res])
     // .slice(0, 5)
     .map((doc) => doc.Document)
     .join('\n')
 
-  const summaryResult = await summarize(text, { temperature: 0.4, max_time: 10, min_length: 13000 })
+  const summarize = await summarizePromise
+
+  // const summaryResult = await summarize(text, { max_time: 10 })
+  const summaryResult = await summarize(text)
   // const summary = await summarize(res, { temperature: 0, max_time: 7 })
   console.log(summaryResult)
   const summary = summaryResult[0].summary_text
-  const titleResult = await summarize(summary, { max_time: 5, max_length: 20 })
-  console.log(titleResult)
-  const title = titleResult[0].summary_text
+
+  const generateTitle = await generateTitlePromise
+  const generateTitlePrompt = `Give me a title for a book with the following blurb:
+
+${summary}`
+  const titleResult = await generateTitle(generateTitlePrompt)
+  const title = titleResult[0].generated_text
+  // const titleResult = await summarize(summary, { max_time: 5, max_length: 20 })
+  // console.log(titleResult)
+  // const title = titleResult[0].summary_text
 
   return { topics: topicNames, title, summary, docs: res }
 }

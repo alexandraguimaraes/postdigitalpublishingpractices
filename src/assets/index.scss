@@ -1,0 +1,19 @@
+@use 'resets';
+
+:root {
+  --white: #ffffff;
+  --pink-lighter: #FFCDFF;
+  --pink-light: #FD9DFD;
+  --pink: #ff69ff;
+  --pink-dark: #FF37FF;
+  --lime: #E0F65E;
+  --lime-20: #e0f65e33;
+  --gray-lighter: #DEDEDE;
+  --gray-light: #C9C9C9;
+  --gray: #939393;
+  --gray-dark: #5C5C5C;
+  --gray-darker: #262626;
+  --gray-darkest: #0D0D0D;
+}
+
+@include resets.styles;

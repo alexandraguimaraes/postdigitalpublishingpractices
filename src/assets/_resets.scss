@@ -1,0 +1,205 @@
+@use "sass:meta" as meta;
+
+@mixin styles {
+  @at-root body {
+    box-sizing: border-box;
+  }
+
+  @at-root body {
+    // font-size: var(--sp-web-type-body-font-size-p-m);
+    // font-family: var(--sp-web-type-body-font-family-p-m);
+    // line-height: var(--sp-web-type-body-line-height-p-m);
+    // font-style: var(--sp-web-type-body-font-style-p-m);
+    // font-weight: var(--sp-web-type-body-font-weight-p-m);
+    color: var(--gray-darker);
+    // accent-color: var(--sp-web-color-action-primary);
+  }
+
+  [hidden] {
+    display: none !important;
+  }
+
+  *,
+  *::before,
+  *::after {
+    box-sizing: inherit;
+    // font: inherit; // FIXME: enable
+  }
+
+  @at-root body {
+    margin: 0;
+    padding:
+      env(safe-area-inset-top),
+      env(safe-area-inset-right)
+      env(safe-area-inset-bottom),
+      env(safe-area-inset-left);
+    font-family: var(--font-family-primary);
+    font-size: 1rem;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  p,
+  blockquote {
+    margin: 0;
+  }
+
+  input[type="search"],
+  input[type="text"],
+  input[type="email"],
+  input[type="url"],
+  textarea {
+    appearance: none !important;
+  }
+
+  ul,
+  ol,
+  li {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+  }
+
+  dl {
+    margin: 0;
+  }
+
+  a {
+    text-decoration: none;
+  }
+
+  button {
+    cursor: pointer;
+    background: none;
+    appearance: none;
+    border: 0;
+    padding: 0;
+    margin: 0;
+    text-align: initial;
+  }
+
+  input,
+  textarea,
+  select {
+    font-family: var(--font-family-primary);
+  }
+
+  fieldset {
+    border: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  figure {
+    padding: 0;
+    margin: 0;
+  }
+
+  img {
+    max-width: 100%;
+  }
+
+  abbr[title] {
+    border-bottom: none;
+    text-decoration: none;
+  }
+
+  em {
+    font-style: italic;
+  }
+
+  table,
+  thead,
+  tbody,
+  tfoot,
+  tr,
+  th,
+  td {
+    // display: block;
+
+    // width: auto;
+    // height: auto;
+    margin: 0;
+    padding: 0;
+    border: none;
+    border-collapse: inherit;
+    table-layout: inherit;
+    border-spacing: 0;
+    border-color: inherit;
+    vertical-align: inherit;
+    text-align: inherit;
+    font-weight: inherit;
+    line-height: inherit;
+    -webkit-border-horizontal-spacing: 0;
+    -webkit-border-vertical-spacing: 0;
+  }
+
+  // th,
+  // td {
+  //   display: inline;
+  // }
+
+  dialog,
+  [popover] {
+    border: none;
+    padding: 0;
+    background-color: transparent;
+    color: var(--gray-darker);
+  }
+
+  // Scroll lock when dialog is open
+  @at-root body:has(dialog:modal) {
+    overflow: hidden;
+    overscroll-behavior-y: none;
+    touch-action: none;
+  }
+
+  dialog::backdrop {
+    background-color: rgb(46 50 66 / 50%);
+    backdrop-filter: blur(10px);
+
+    @supports (background-color: color-mix(red, blue)) {
+      background-color: color-mix(in srgb, var(--sp-web-color-surface-inverted) 50%, transparent);
+    }
+  }
+
+  @supports (overlay: auto) {
+    dialog::backdrop {
+      // Final state of exit animation
+      opacity: 0;
+      transition: inherit;
+      transition-behavior: allow-discrete;
+    }
+
+    dialog[open]::backdrop {
+      // Final state of enter animation
+      opacity: 1;
+    }
+
+    @starting-style {
+      // Initial state of enter animation
+      dialog[open]::backdrop {
+        opacity: 0;
+      }
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html:focus-within {
+      scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+      animation-duration: .01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: .01ms !important;
+      scroll-behavior: auto !important
+    }
+  }
+}

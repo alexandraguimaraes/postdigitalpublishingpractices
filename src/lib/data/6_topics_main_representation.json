@@ -1,0 +1,268 @@
+[
+  {
+    "topic": 0,
+    "main_representation": ["hybridization"],
+    "representation": [
+      "computer metamedium",
+      "software",
+      "multimedia",
+      "media types",
+      "media formats"
+    ]
+  },
+  {
+    "topic": 1,
+    "main_representation": ["artists' publications"],
+    "representation": [
+      "self-publishers",
+      "scribes",
+      "censorship"
+    ]
+  },
+  {
+    "topic": 2,
+    "main_representation": ["self-published"],
+    "representation": [
+      "literature",
+      "futurism"
+    ]
+  },
+  {
+    "topic": 3,
+    "main_representation": ["publishing practices"],
+    "representation": [
+      "literary",
+      "genres",
+      "writing",
+      "intertextual",
+      "literary fiction"
+    ]
+  },
+  {
+    "topic": 4,
+    "main_representation": ["a gesture is something preceding an action"],
+    "representation": [
+      "feeds",
+      "attention",
+      "gestures"
+    ]
+  },
+  {
+    "topic": 5,
+    "main_representation": ["writers"],
+    "representation": [
+      "publication",
+      "readers"
+    ]
+  },
+  {
+    "topic": 6,
+    "main_representation": ["designers"],
+    "representation": [
+      "auteur theory"
+    ]
+  },
+  {
+    "topic": 7,
+    "main_representation": ["language act"],
+    "representation": [
+      "language",
+      "representation",
+      "provisional language"
+    ]
+  },
+  {
+    "topic": 8,
+    "main_representation": ["novel"],
+    "representation": [
+      "author"
+    ]
+  },
+  {
+    "topic": 9,
+    "main_representation": ["authorship"],
+    "representation": [
+      "death of the author"
+    ]
+  },
+  {
+    "topic": 10,
+    "main_representation": ["plagiarism"],
+    "representation": [
+      "poems",
+      "uncreative writing",
+      "conceptual writing",
+      "creativity"
+    ]
+  },
+  {
+    "topic": 11,
+    "main_representation": ["computer-generated texts"],
+    "representation": [
+      "nlg systems",
+      "machines",
+      "corpus"
+    ]
+  },
+  {
+    "topic": 12,
+    "main_representation": ["intellectual property"],
+    "representation": [
+      "copyright"
+    ]
+  },
+  {
+    "topic": 13,
+    "main_representation": ["nonlinear textuality"],
+    "representation": [
+      "nonlinearity",
+      "hypertext",
+      "semiotic"
+    ]
+  },
+  {
+    "topic": 14,
+    "main_representation": ["appropriation of web content"],
+    "representation": [
+      "appropriation of internet technology",
+      "contemporary internet art"
+    ]
+  },
+  {
+    "topic": 15,
+    "main_representation": ["web-to-print"],
+    "representation": [
+      "printed web",
+      "capture",
+      "scraping"
+    ]
+  },
+  {
+    "topic": 16,
+    "main_representation": ["digital data"],
+    "representation": [
+      "archive",
+      "internet archive"
+    ]
+  },
+  {
+    "topic": 18,
+    "main_representation": ["e-books"],
+    "representation": [
+      "e-readers"
+    ]
+  },
+  {
+    "topic": 19,
+    "main_representation": ["bindings"],
+    "representation": [
+      "codex",
+      "illuminated manuscripts"
+    ]
+  },
+  {
+    "topic": 20,
+    "main_representation": ["book form"],
+    "representation": [
+      "artists' books",
+      "artist publisher",
+      "pages"
+    ]
+  },
+  {
+    "topic": 21,
+    "main_representation": ["narratives"],
+    "representation": [
+      "interactive narratives",
+      "print narratives"
+    ]
+  },
+  {
+    "topic": 22,
+    "main_representation": ["ways to 'make public'"],
+    "representation": [
+      "propaganda",
+      "political"
+    ]
+  },
+  {
+    "topic": 23,
+    "main_representation": ["publishing process"],
+    "representation": [
+      "urgent publishing",
+      "making public",
+      "public sphere",
+      "urgency"
+    ]
+  },
+  {
+    "topic": 24,
+    "main_representation": ["textuality"],
+    "representation": [
+      "technotext",
+      "electronic literature"
+    ]
+  },
+  {
+    "topic": 25,
+    "main_representation": ["print"],
+    "representation": [
+      "postprint",
+      "age of print",
+      "print books",
+      "digital media"
+    ]
+  },
+  {
+    "topic": 26,
+    "main_representation": ["writing space"],
+    "representation": [
+      "electronic writing",
+      "word processor"
+    ]
+  },
+  {
+    "topic": 27,
+    "main_representation": ["typesetting"],
+    "representation": [
+      "printers"
+    ]
+  },
+  {
+    "topic": 28,
+    "main_representation": ["senses"],
+    "representation": [
+    ]
+  },
+  {
+    "topic": 29,
+    "main_representation": ["printed page"],
+    "representation": [
+    ]
+  },
+  {
+    "topic": 30,
+    "main_representation": ["digital technology"],
+    "representation": [
+      "digital information age",
+      "analog",
+      "revolutionary period of the digital"
+    ]
+  },
+  {
+    "topic": 31,
+    "main_representation": ["artzines"],
+    "representation": [
+      "publications"
+    ]
+  },
+  {
+    "topic": 32,
+    "main_representation": ["post-digital"],
+    "representation": [
+      "printed matter",
+      "small press",
+      "publishers"
+    ]
+  }
+]

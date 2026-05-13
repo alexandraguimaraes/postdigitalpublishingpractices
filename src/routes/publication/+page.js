@@ -1,11 +1,5 @@
 export const prerender = false
 
-// const [generate, summarize] = await Promise.all([
-//   pipeline('text-generation', 'Xenova/distilgpt2'),
-//   pipeline('summarization', 'Xenova/bart-large-cnn')
-// ])
-// const summarize = await pipeline('summarization', 'Xenova/bart-large-cnn')
-
 export async function load({ parent, url }) {
   const { worker } = await parent()
   const topics = url.searchParams.getAll('t').map((t) => Number(t))
