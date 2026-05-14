@@ -51,7 +51,7 @@
     {#each data.topics as topic}
       <label>
         <input type="checkbox" name="topic" value={topic.id} bind:group={selectedTopics} />
-        {topic.terms[0]}
+        {topic.main}
       </label>
     {/each}
   </div>
@@ -60,15 +60,15 @@
   </div>
 </form>
 
+{#if generating}
+  <p>generating... (started {timeElapsed}s ago)</p>
+{/if}
+
 <svg class="scatter" viewBox={viewBox}>
   {#each data.docs as doc}
     <circle cx={doc.x} cy={doc.y} r="4" />
   {/each}
 </svg>
-
-{#if generating}
-  <p>generating... (started {timeElapsed}s ago)</p>
-{/if}
 
 <style lang="scss">
   .scatter {

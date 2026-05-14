@@ -1,4 +1,5 @@
-import docs from '$lib/data/docs.json'
+import topics from '$lib/data/6_topics_main_representation.json'
+import docs from '$lib/data/7_docs.json'
 import { pipeline } from '@huggingface/transformers'
 
 // const [generate, summarize] = await Promise.all([
@@ -18,35 +19,72 @@ onmessage = (e) => {
   })
 }
 
+/**
+ * @typedef {Object} Doc
+ * @property {number} index
+ * @property {string} excerpt
+ */
+
+/**
+ * @typedef {Object} TopicsMapValue
+ * @property {number} index
+ * @property {string} mainRepresentation
+ * @property {Doc[]} docs
+ */
+
+/**
+ * @type {Map<string, TopicsMapValue>}
+ */
+const topicsMap = new Map()
+topics.forEach(t => {
+  topicsMap.set(t.topic, {
+    index: t.topic,
+    mainRepresentation: t.main_representation[0],
+    docs: []
+  })
+})
+
+docs.forEach(doc => {
+  doc.topics.forEach(t => {
+    const topic = topicsMap.get(t.topic)
+    topic.docs.push({
+      index: doc.index,
+      excerpt: doc.excerpt
+    })
+  })
+})
+
 const deviationFromAvg = 3
 const approxExcerpts = random(30, 50)
 
-async function generate(topics) {
-  const topicDocs = docs
-    .filter((doc) => topics.includes(doc.Topic))
-    .reduce((acc, doc) => {
-      acc[doc.Topic] ??= []
-      acc[doc.Topic].push(doc)
-      return acc
-    }, {})
+/**
+ * 
+ * @param {String[]} topicIndexes 
+ * @returns 
+ */
+async function generate(topicIndexes) {
+  /**
+   * @type {TopicsMapValue[]}
+   */
+  const selectedTopics = topicIndexes.map(index => topicsMap.get(index))
 
-  const topicNames = topics.map((t) => topicDocs[t][0].Representation[0])
+  const topicNames = selectedTopics.map(topic => topic.mainRepresentation)
   console.log(topicNames)
 
-  const avgDocsPerTopic = Math.floor(approxExcerpts / topics.length)
-  const docsPerTopic = topics.map((t) =>
+  const avgDocsPerTopic = Math.floor(approxExcerpts / topicIndexes.length)
+  const docsPerTopic = selectedTopics.map((t) =>
     Math.min(
-      topicDocs[t].length,
+      t.docs.length,
       // avgDocsPerTopic
       random(avgDocsPerTopic - deviationFromAvg, avgDocsPerTopic + deviationFromAvg)
     )
   )
 
   const res = []
-  for (const [index, topic] of topics.entries()) {
-    let numDocs = docsPerTopic[index]
+  for (const [i, topic] of selectedTopics.entries()) {
+    let numDocs = docsPerTopic[i]
     while (numDocs-- > 0) {
-      const el = popRandom(topicDocs[topic])
+      const el = popRandom(topic.docs)
       if (!el) break
       res.push(el)
     }
@@ -55,14 +93,14 @@ async function generate(topics) {
   const text = res
     // const text = shuffle([...res])
     // .slice(0, 5)
-    .map((doc) => doc.Document)
+    .map((doc) => doc.excerpt)
     .join('\n')
 
   const summarize = await summarizePromise
 
   // const summaryResult = await summarize(text, { max_time: 10 })
   const summaryResult = await summarize(text)
-  // const summary = await summarize(res, { temperature: 0, max_time: 7 })
+  // const summary = await summarize(text, { temperature: 0, max_time: 7 })
   console.log(summaryResult)
   const summary = summaryResult[0].summary_text
 
@@ -88,6 +126,11 @@ function popRandom(array) {
   const index = random(0, array.length - 1)
   const [item] = array.splice(index, 1)
   return item
+}
+
+function selectRandom(array) {
+  const index = random(0, array.length - 1)
+  return array[index]
 }
 
 function shuffle(array) {

@@ -9,5 +9,5 @@
 <p>Topics: {data?.topics.join(', ')}</p>
 <hr />
 {#each data?.docs as doc}
-  <p>{doc.Document}</p>
+  <p>{doc.excerpt}</p>
 {/each}
