@@ -1,6 +1,7 @@
 @use 'resets';
 
 :root {
+  // colors
   --white: #ffffff;
   --pink-lighter: #FFCDFF;
   --pink-light: #FD9DFD;
@@ -14,6 +15,39 @@
   --gray-dark: #5C5C5C;
   --gray-darker: #262626;
   --gray-darkest: #0D0D0D;
+
+  // grid
+  --content-width: 76rem;
+  --grid-margin: 1rem;
+  --grid-gutter: 2rem;
 }
 
 @include resets.styles;
+
+.grid {
+  margin-inline: auto;
+  width: min(100vw - 2 * var(--grid-margin), var(--content-width));
+}
+
+.grid__cols {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--grid-gutter);
+}
+
+.grid-col-12 {
+  grid-column: 1 / -1;
+}
+
+// layout
+.page__header {
+  min-height: 9rem;
+
+  h1 {
+    font-size: 3rem;
+    line-height: 120%;
+    font-weight: 700;
+    text-indent: 8rem;
+    margin-top: 2rem;
+  }
+}
