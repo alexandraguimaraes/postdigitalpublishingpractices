@@ -1,7 +1,14 @@
 <script>
   import { goto } from '$app/navigation'
   import { base } from '$app/paths'
+  import * as d3 from 'd3'
+
   const { data } = $props()
+
+  // Expands the docs so that there are repeated entries for excerpts
+  // that belong to multiple topics, one entry for each topic
+  const expandedDocs = data.docs.flatMap(doc => doc.topics.map(t => ({ ...doc, topic: t })))
+  const docsByTopic = d3.groups(expandedDocs, d => d.topic.topic);
 
   const minTopics = 2,
     maxTopics = 5
@@ -10,19 +17,6 @@
   let selectedTopics = $state([])
   let generating = $state(false)
   let timeElapsed = $state(0)
-  let { xMin, xMax, yMin, yMax } = $derived(data.docs.reduce((acc, doc) => {
-    if (doc.x < acc.xMin) acc.xMin = doc.x
-    if (doc.x > acc.xMax) acc.xMax = doc.x
-    if (doc.y < acc.yMin) acc.yMin = doc.y
-    if (doc.y > acc.yMax) acc.yMax = doc.y
-    return acc
-  }, { xMin: Number.MAX_SAFE_INTEGER, xMax: 0, yMin: Number.MAX_SAFE_INTEGER, yMax: 0 }))
-
-  const clearX = 50;
-  const clearY = 20;
-  const width = $derived(xMax - xMin)
-  const height = $derived(yMax - yMin)
-  const viewBox = $derived(`${xMin - clearX} ${yMin - clearY} ${width + clearX * 2} ${height + clearY * 2}`)
 
   /**
    * @param {SubmitEvent} event
@@ -44,7 +38,40 @@
       generating = false
     }
   }
+
+
+  let windowWidth = $state(window.innerWidth)
+  let windowHeight = $state(window.innerHeight)
+
+  const padding = {top: 32, bottom: 32, left: 48, right: 48 }
+
+  const xScale = $derived(
+    d3.scaleLinear()
+      .domain(d3.extent(data.docs.map(doc => doc.x)))
+      .range([padding.left, window.innerWidth - padding.right])
+  )
+
+  const yScale = $derived(
+    d3.scaleLinear()
+      .domain(d3.extent(data.docs.map(doc => doc.y)))
+      .range([padding.top, window.innerHeight - padding.bottom])
+  )
+
+  const path = d3.geoPath().pointRadius(1)
+
+  const topicContour = index =>
+    d3.contourDensity()
+      .size([window.innerWidth, window.innerHeight])
+      .x(d => xScale(d.x))
+      .y(d => yScale(d.y))
+      .contours(docsByTopic[index][1])
+
 </script>
+
+<svelte:window
+  bind:innerWidth={windowWidth}
+  bind:innerHeight={windowHeight}
+/>
 
 <div class="grid">
   <div class="grid__cols">
@@ -69,10 +96,20 @@
       {#if generating}
         <p>generating... (started {timeElapsed}s ago)</p>
       {/if}
-      <svg class="scatter" viewBox={viewBox}>
-        {#each data.docs as doc}
-          <circle cx={doc.x} cy={doc.y} r="4" />
+      <svg id="scatter" class="scatter" width={windowWidth} height={windowHeight}>
+      {#snippet blob(contour)}
+        {#each d3.ticks(Number.MIN_VALUE, contour.max, 20) as value}
+          <path class="contour" d={path(contour(value))} />
         {/each}
+      {/snippet}
+        {@render blob(topicContour(1))}
+        {@render blob(topicContour(7))}
+        {@render blob(topicContour(26))}
+        <g>
+          {#each data.docs as doc}
+            <circle cx={xScale(doc.x)} cy={yScale(doc.y)} r="4" />
+          {/each}
+        </g>
       </svg>
     </main>
   </div>
@@ -93,5 +130,10 @@
   stroke-width: 1px;
   stroke: var(--pink-dark);
   fill: var(--pink-light);
+}
+
+.scatter .contour {
+  stroke: none;
+  fill: var(--lime-20);
 }
 </style>
