@@ -8,7 +8,7 @@
   // Expands the docs so that there are repeated entries for excerpts
   // that belong to multiple topics, one entry for each topic
   const expandedDocs = data.docs.flatMap(doc => doc.topics.map(t => ({ ...doc, topic: t })))
-  const docsByTopic = d3.groups(expandedDocs, d => d.topic.topic);
+  const docsByTopic = d3.groups(expandedDocs, d => d.topic.topic) // [<topic>, [<doc>, <doc>, …], …]
 
   const minTopics = 2,
     maxTopics = 5
@@ -64,7 +64,7 @@
       .size([window.innerWidth, window.innerHeight])
       .x(d => xScale(d.x))
       .y(d => yScale(d.y))
-      .contours(docsByTopic[index][1])
+      .contours(docsByTopic.find(e => e[0] === index)?.[1])
 
 </script>
 
@@ -102,9 +102,9 @@
           <path class="contour" d={path(contour(value))} />
         {/each}
       {/snippet}
-        {@render blob(topicContour(1))}
-        {@render blob(topicContour(7))}
-        {@render blob(topicContour(26))}
+      {#each selectedTopics as topic}
+        {@render blob(topicContour(topic))}
+      {/each}
         <g>
           {#each data.docs as doc}
             <circle cx={xScale(doc.x)} cy={yScale(doc.y)} r="4" />
